@@ -98,12 +98,12 @@ public final class JsonNominatimClient implements NominatimClient {
      * 
      * @param httpClient
      *            an HTTP client
-     * @param email
-     *            an email to add in the HTTP requests parameters to "sign" them
+     * @param key
+     *            an key to add in the HTTP requests parameters to "sign" them
      */
-    public JsonNominatimClient(final HttpClient httpClient, final String email) {
+    public JsonNominatimClient(final HttpClient httpClient, final String key) {
 
-        this(DEFAULT_BASE_URL, httpClient, email, new NominatimOptions());
+        this(DEFAULT_BASE_URL, httpClient, key, new NominatimOptions());
     }
 
     /**
@@ -111,14 +111,14 @@ public final class JsonNominatimClient implements NominatimClient {
      * 
      * @param httpClient
      *            an HTTP client
-     * @param email
-     *            an email to add in the HTTP requests parameters to "sign" them
+     * @param key
+     *            an key to add in the HTTP requests parameters to "sign" them
      * @param defaults
      *            defaults options, they override null valued requests options
      */
-    public JsonNominatimClient(final HttpClient httpClient, final String email, final NominatimOptions defaults) {
+    public JsonNominatimClient(final HttpClient httpClient, final String key, final NominatimOptions defaults) {
 
-        this(DEFAULT_BASE_URL, httpClient, email, defaults);
+        this(DEFAULT_BASE_URL, httpClient, key, defaults);
     }
 
     /**
@@ -128,13 +128,13 @@ public final class JsonNominatimClient implements NominatimClient {
      *            the nominatim server url
      * @param httpClient
      *            an HTTP client
-     * @param email
-     *            an email to add in the HTTP requests parameters to "sign" them (see
+     * @param key
+     *            an key to add in the HTTP requests parameters to "sign" them (see
      *            http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy)
      */
-    public JsonNominatimClient(final String baseUrl, final HttpClient httpClient, final String email) {
+    public JsonNominatimClient(final String baseUrl, final HttpClient httpClient, final String key) {
 
-        this(baseUrl, httpClient, email, new NominatimOptions());
+        this(baseUrl, httpClient, key, new NominatimOptions());
     }
 
     /**
@@ -144,23 +144,23 @@ public final class JsonNominatimClient implements NominatimClient {
      *            the nominatim server url
      * @param httpClient
      *            an HTTP client
-     * @param email
-     *            an email to add in the HTTP requests parameters to "sign" them (see
+     * @param key
+     *            an key to add in the HTTP requests parameters to "sign" them (see
      *            http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy)
      * @param defaults
      *            defaults options, they override null valued requests options
      */
-    public JsonNominatimClient(final String baseUrl, final HttpClient httpClient, final String email, final NominatimOptions defaults) {
+    public JsonNominatimClient(final String baseUrl, final HttpClient httpClient, final String key, final NominatimOptions defaults) {
 
-        String emailEncoded;
+        String keyEncoded;
         try {
-            emailEncoded = URLEncoder.encode(email, ENCODING_UTF_8);
+            keyEncoded = URLEncoder.encode(key, ENCODING_UTF_8);
         } catch (UnsupportedEncodingException e) {
-            emailEncoded = email;
+            keyEncoded = key;
         }
-        this.searchUrl = String.format("%s/search?format=jsonv2&email=%s", baseUrl.replaceAll("/$", ""), emailEncoded);
-        this.reverseUrl = String.format("%s/reverse?format=json&email=%s", baseUrl.replaceAll("/$", ""), emailEncoded);
-        this.lookupUrl = String.format("%s/lookup?format=json&email=%s", baseUrl.replaceAll("/$", ""), emailEncoded);
+        this.searchUrl = String.format("%s/search?format=jsonv2&key=%s", baseUrl.replaceAll("/$", ""), keyEncoded);
+        this.reverseUrl = String.format("%s/reverse?format=json&key=%s", baseUrl.replaceAll("/$", ""), keyEncoded);
+        this.lookupUrl = String.format("%s/lookup?format=json&key=%s", baseUrl.replaceAll("/$", ""), keyEncoded);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("API search URL: {}", searchUrl);
